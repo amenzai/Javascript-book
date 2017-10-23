@@ -1,3 +1,5 @@
-# My Awesome Book
+# 简介
 
-This file file serves as your book's preface, a great place to describe your book's content and ideas.
+这本书记录了javascript相关的知识点。
+
+目录后续补充 :)
