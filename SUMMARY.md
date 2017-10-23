@@ -12,4 +12,7 @@
     * [1.8 小结](chapter1/section1.8.md)
 * [2. 变量、作用域、内存](chapter2/README.md)
     * [2.1 基本类型和引用类型的值](chapter2/section2.1.md)
+    * [2.2 执行环境及作用域](chapter2/section2.2.md)
+    * [2.3 垃圾收集](chapter2/section2.3.md)
+    * [2.4 小结](chapter2/section2.4.md)
 
