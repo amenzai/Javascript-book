@@ -38,6 +38,21 @@ undefined == null
 
 
 ### Object.prototype.toString方法
+Object.prototype.toString方法返回对象的类型字符串，因此可以用来判断一个值的类型。
+
+```js
+Object.prototype.toString.call(2) // "[object Number]"
+Object.prototype.toString.call('') // "[object String]"
+Object.prototype.toString.call(true) // "[object Boolean]"
+Object.prototype.toString.call(undefined) // "[object Undefined]"
+Object.prototype.toString.call(null) // "[object Null]"
+Object.prototype.toString.call(Math) // "[object Math]"
+Object.prototype.toString.call({}) // "[object Object]"
+Object.prototype.toString.call([]) // "[object Array]"
+
+// 这样更清晰
+Object.prototype.toString.call(2).slice(8,-1).toLowerCase(); // "number"
+```
 
 ## 关于布尔值
 进行布尔转换时，除了下面六个值被转为false，其他值都视为true。
