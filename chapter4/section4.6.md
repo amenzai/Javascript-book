@@ -41,5 +41,5 @@ var div = document.querySelector('div');
 window.getComputedStyle(div).backgroundColor
 ```
 
-## StyleSheet对象
+## styleSheets对象
 document对象的styleSheets属性，可以返回当前页面的所有StyleSheet对象（即所有样式表）。它是一个类似数组的对象。
