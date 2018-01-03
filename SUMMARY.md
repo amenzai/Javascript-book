@@ -37,5 +37,10 @@
     * [CSS操作](chapter4/section4.6.md)
 * [BOM]('')
     * [window对象](chapter5/section5.1.md)
+    * [history对象](chapter5/section5.2.md)
 * [其他]('')
-    * [api](chapter6/section6.1.md)    
+    * [同源政策](chapter6/section6.1.md)  
+    * [Web Storage](chapter6/section6.2.md)    
+    * [CORS通信](chapter6/section6.3.md)   
+    * [Cookie](chapter6/section6.4.md) 
+      

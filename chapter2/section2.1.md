@@ -53,6 +53,12 @@ Object.keys方法只返回可枚举的属性，Object.getOwnPropertyNames方法�
 
 一般情况下，几乎总是使用Object.keys方法，遍历数组的属性。
 
+### Object.values() Object.entries()
+Object.values()遍历对象的值，返回一个数组。
+
+Object.entries()遍历对象的键值，返回一个二维数组。
+
+
 ## 原型对象方法
 
 - valueOf()：返回当前对象对应的值。
