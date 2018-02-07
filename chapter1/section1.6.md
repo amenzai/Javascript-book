@@ -30,3 +30,49 @@ a[1] // undefined
 ```
 空位就是数组没有这个元素，所以不会被遍历到，而undefined则表示数组有这个元素，值是undefined，所以遍历不会跳过。
 
+## for of 遍历数组
+
+```js
+// 简单遍历
+let iterable = [10, 20, 30];
+
+for (let value of iterable) {
+    value += 1;
+    console.log(value);
+}
+// 11
+// 21
+// 31
+
+
+// 迭代Map
+let iterable = new Map([["a", 1], ["b", 2], ["c", 3]]);
+
+for (let entry of iterable) {
+  console.log(entry);
+}
+// ["a", 1]
+// ["b", 2]
+// ["c", 3]
+
+for (let [key, value] of iterable) {
+  console.log(value);
+}
+// 1
+// 2
+// 3
+
+// 迭代set
+let iterable = new Set([1, 1, 2, 2, 3, 3]);
+
+for (let value of iterable) {
+  console.log(value);
+}
+// 1
+// 2
+// 3
+
+// 还可以迭代String arguments 和 DOM（NodeList）
+```
+
+
