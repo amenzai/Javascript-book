@@ -22,6 +22,7 @@
     * [Math对象](chapter2/section2.6.md)
     * [Date对象](chapter2/section2.7.md)
     * [RegExp对象](chapter2/section2.8.md)
+    * [属性描述对象](chapter2/section2.9.md)
 * [面向对象编程]('')
     * [概述](chapter3/section3.1.md)
     * [this简介](chapter3/section3.2.md)
@@ -35,6 +36,7 @@
     * [事件模型](chapter4/section4.4.md)
     * [事件类型](chapter4/section4.5.md)
     * [CSS操作](chapter4/section4.6.md)
+    * [Image对象](chapter4/section4.7.md)
 * [BOM]('')
     * [window对象](chapter5/section5.1.md)
     * [history对象](chapter5/section5.2.md)
@@ -43,4 +45,5 @@
     * [Web Storage](chapter6/section6.2.md)    
     * [CORS通信](chapter6/section6.3.md)   
     * [Cookie](chapter6/section6.4.md) 
+    * [Ajax](chapter6/section6.5.md) 
       

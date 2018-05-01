@@ -64,4 +64,23 @@ function copyOwnPropertiesFrom(target, source) {
   });
   return target;
 }
+
+// or
+function copyObject(orig) {
+  return Object.create(
+    Object.getPrototypeOf(orig),
+    Object.getOwnPropertyDescriptors(orig)
+  );
+}
 ```
+## 其他常用方法
+- Object.getPrototypeOf()
+返回参数对象的原型。
+- Object.setPrototypeOf()
+为参数对象设置原型，返回该参数对象。它接受两个参数，第一个是现有对象，第二个是原型对象。
+- Object.create()
+该方法接受一个对象作为参数，然后以它为原型，返回一个实例对象。该实例完全继承原型对象的属性。
+- Object.prototype.isPrototypeOf()
+判断该对象是否为参数对象的原型
+- Object.prototype.__proto__()
+返回该对象的原型，属性可读写。

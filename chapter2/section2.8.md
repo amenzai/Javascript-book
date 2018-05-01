@@ -38,5 +38,5 @@ var r2 = /y/;
 r1.exec(s) // ["x"]
 r2.exec(s) // null
 ```
-
+[参考文章](http://javascript.ruanyifeng.com/stdlib/regexp.html)
 
