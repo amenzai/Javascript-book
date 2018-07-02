@@ -45,5 +45,8 @@
     * [Web Storage](chapter6/section6.2.md)    
     * [CORS通信](chapter6/section6.3.md)   
     * [Cookie](chapter6/section6.4.md) 
-    * [Ajax](chapter6/section6.5.md) 
+    * [Ajax](chapter6/section6.5.md)
+    * [Web Worker](chapter6/section6.6.md)
+    * [SSE](chapter6/section6.7.md)
+    * [requestAnimationFrame](chapter6/section6.8.md)
       
