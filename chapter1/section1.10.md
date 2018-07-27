@@ -28,9 +28,15 @@ function UserError(message) {
 
 UserError.prototype = new Error();
 UserError.prototype.constructor = UserError;
+
+new UserError('这是自定义的错误！');
 ```
 ## throw语句
 ```js
+if (x < 0) {
+  throw new Error('x 必须为正数');
+}
+
 // 抛出一个字符串
 throw "Error！";
 
@@ -43,7 +49,7 @@ throw true;
 // 抛出一个对象
 throw {toString: function() { return "Error!"; } };
 ```
-JavaScript引擎一旦遇到throw语句，就会停止执行后面的语句，并将throw语句的参数值，返回给用户。
+JavaScript引擎一旦遇到throw语句，就会停止执行后面的语句，引擎会接收到throw抛出的信息，可能是一个错误实例，也可能是其他类型的值。
 
 ## try catch 结构
 为了对错误进行处理，需要使用`try...catch`结构。
@@ -58,6 +64,21 @@ try {
   } else {
     throw e;
   }
+}
+```
+
+为了捕捉不同类型的错误，catch代码块之中可以加入判断语句。
+
+```js
+try {
+  foo.bar();
+} catch (e) {
+  if (e instanceof EvalError) {
+    console.log(e.name + ": " + e.message);
+  } else if (e instanceof RangeError) {
+    console.log(e.name + ": " + e.message);
+  }
+  // ...
 }
 ```
 
