@@ -285,3 +285,4 @@ self.addEventListener('message', function(e) {
   // 可以进行一些操作在对主进程进行发送信息   
   self.postMessage('You said: ' + e.data.method);
 }, false);
+```

@@ -3,7 +3,7 @@
 ## File 对象
 File 对象代表一个文件，用来读写文件信息。它继承了 Blob 对象，或者说是一种特殊的 Blob 对象，所有可以使用 Blob 对象的场合都可以使用它。
 
-最常见的使用场合是表单的文件上传控件（<input type="file">），用户选中文件以后，浏览器就会生成一个数组，里面是每一个用户选中的文件，它们都是 File 实例对象。
+最常见的使用场合是表单的文件上传控件（`<input type="file">`），用户选中文件以后，浏览器就会生成一个数组，里面是每一个用户选中的文件，它们都是 File 实例对象。
 ```js
 // HTML 代码如下
 // <input id="fileItem" type="file">
@@ -62,7 +62,7 @@ File 对象没有自己的实例方法，由于继承了 Blob 对象，因此可
 ## FileList 对象
 FileList对象是一个类似数组的对象，代表一组选中的文件，每个成员都是一个 File 实例。它主要出现在两个场合。
 
-- 文件控件节点（<input type="file">）的files属性，返回一个 FileList 实例。
+- 文件控件节点（`<input type="file">`）的files属性，返回一个 FileList 实例。
 - 拖拉一组文件时，目标区的DataTransfer.files属性，返回一个 FileList 实例。
 ```js
 // HTML 代码如下
@@ -117,7 +117,7 @@ FileReader 有以下实例方法。
 - FileReader.abort()：终止读取操作，readyState属性将变成2。
 - FileReader.readAsArrayBuffer()：以 ArrayBuffer 的格式读取文件，读取完成后result属性将返回一个 ArrayBuffer 实例。
 - FileReader.readAsBinaryString()：读取完成后，result属性将返回原始的二进制字符串。
-- FileReader.readAsDataURL()：读取完成后，result属性将返回一个 Data URL 格式（Base64 编码）的字符串，代表文件内容。对于图片文件，这个字符串可以用于<img>元素的src属性。注意，这个字符串不能直接进行 Base64 解码，必须把前缀data:*/*;base64,从字符串里删除以后，再进行解码。
+- FileReader.readAsDataURL()：读取完成后，result属性将返回一个 Data URL 格式（Base64 编码）的字符串，代表文件内容。对于图片文件，这个字符串可以用于`<img>`元素的src属性。注意，这个字符串不能直接进行 Base64 解码，必须把前缀data:*/*;base64,从字符串里删除以后，再进行解码。
 - FileReader.readAsText()：读取完成后，result属性将返回文件内容的文本字符串。该方法的第一个参数是代表文件的 Blob 实例，第二个参数是可选的，表示文本编码，默认为 UTF-8。
 
 下面是一个例子。
@@ -141,4 +141,4 @@ function previewFile() {
   }
 }
 ```
-上面代码中，用户选中图片文件以后，脚本会自动读取文件内容，然后作为一个 Data URL 赋值给<img>元素的src属性，从而把图片展示出来。
+上面代码中，用户选中图片文件以后，脚本会自动读取文件内容，然后作为一个 Data URL 赋值给`<img>`元素的src属性，从而把图片展示出来。
