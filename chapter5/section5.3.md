@@ -107,7 +107,7 @@ win.postMessage(JSON.stringify({key: 'storage', data: obj}), 'http://bbb.com');
 - CORS
 
 ### JONP
-它的基本思想是，网页通过添加一个<script>元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。
+它的基本思想是，网页通过添加一个`<script>`元素，向服务器请求JSON数据，这种做法不受同源政策限制；服务器收到请求后，将数据放在一个指定名字的回调函数里传回来。
 
 ```js
 function addScriptTag(src) {
