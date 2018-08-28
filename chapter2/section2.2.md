@@ -93,10 +93,11 @@ splice的第一个参数是删除的起始位置，第二个参数是被删除�
 
 特别注意：
 
-sort方法不是按照大小排序，而是按照对应字符串的字典顺序排序。也就是说，数值会被先转成字符串，再按照字典顺序进行比较，所以101排在11的前面。
+sort方法不是按照大小排序，而是按照对应字符串的字典顺序排序。也就是说，数值会被先转成字符串，再按照字典顺序（ASCII值）进行比较，所以101排在11的前面。
 
 自定义方式排序：
 ```js
+// 数值排序
 [10111, 1101, 111].sort(function (a, b) {
   return a - b;
 })
@@ -126,7 +127,19 @@ function compare(a, b) {
   // a必须等于
   return 0;
 }
-arr.sort(compare); 
+arr.sort(compare);
+
+// 字符串排序
+var names = ['Ana', 'ana', 'john', 'John'];
+names.sort(function (a, b) {
+  if (a.toLowerCase() < b.toLowerCase()) {
+    return -1
+  }
+  if (a.toLowerCase() > b.toLowerCase()) {
+    return 1
+  }
+  return 0;
+});
 ```
 
 ### map()
@@ -176,3 +189,26 @@ reduce方法和reduceRight方法依次处理数组的每个成员，最终累计
 indexOf方法返回给定元素在数组中第一次出现的位置，如果没有出现则返回-1。
 
 lastIndexOf方法返回给定元素在数组中最后一次出现的位置，如果没有出现则返回-1。
+
+### 遍历
+```js
+// 多维数组创建
+var matrix3x3x3 = [];
+for (var i = 0; i < 3; i++) {
+  matrix3x3x3[i] = [];
+  for (var j = 0; j < 3; j++) {
+    matrix3x3x3[i][j] = [];
+    for (var z = 0; z < 3; z++) {
+      matrix3x3x3[i][j][z] = i + j + z;
+    }
+  }
+}
+// 多维数组遍历
+for (var i = 0; i < matrix3x3x3.length; i++) {
+  for (var j = 0; j < matrix3x3x3[i].length; j++) {
+    for (var z = 0; z < matrix3x3x3[i][j].length; z++) {
+      console.log(matrix3x3x3[i][j][z]);
+    }
+  }
+}
+```
