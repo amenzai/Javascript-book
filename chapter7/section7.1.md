@@ -32,6 +32,47 @@ function Stack() {
 }
 var stack = new Stack(); // 初始化Stack类
 
+// ES6 实现 Stack
+let Stack = (function() {
+  const items = new WeakMap();
+  class Stack {
+    constructor() {
+      items.set(this, []);
+    }
+    push(element) {
+      let s = items.get(this);
+      s.push(element);
+    }
+    pop() {
+      let s = items.get(this);
+      let r = s.pop();
+      return r;
+    }
+    //其他方法
+  }
+  return Stack;
+})();　
+
+// 基本应用：二进制转换
+function divideBy2(decNumber){
+
+  var remStack = new Stack(),
+    rem,
+    binaryString = '';
+
+  while (decNumber > 0){
+    rem = Math.floor(decNumber % 2);
+    remStack.push(rem);
+    decNumber = Math.floor(decNumber / 2);
+  }
+
+  while (!remStack.isEmpty()){
+    binaryString += remStack.pop().toString();
+  }
+
+  return binaryString;
+}
+
 
 /**
  * 数值进制转换    // 用它解决一些计算机科学中的问题。
@@ -42,14 +83,14 @@ function baseConverter(decNumber, base) {
   var remStack = new Stack(),
     rem,
     baseString = '',
-    digits = '0123456789ABCDEF'; //{6}
+    digits = '0123456789ABCDEF';
   while (decNumber > 0) {
     rem = Math.floor(decNumber % base);
     remStack.push(rem);
     decNumber = Math.floor(decNumber / base);
   }
   while (!remStack.isEmpty()) {
-    baseString += digits[remStack.pop()]; //{7}
+    baseString += digits[remStack.pop()];
   }
   return baseString;
 }
