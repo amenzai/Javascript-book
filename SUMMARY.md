@@ -69,4 +69,5 @@
     * [树](chapter7/section7.6.md)
     * [图](chapter7/section7.7.md)
     * [排序和搜索算法](chapter7/section7.8.md)
+    * [算法面试总结](chapter7/section7.9.md)
 

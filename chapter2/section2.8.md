@@ -70,6 +70,7 @@ r2.exec(s) // null
 
 - ^ 表示字符串的开始位置
 - $ 表示字符串的结束位置
+
 ```js
 // test必须出现在开始位置
 /^test/.test('test123') // true
@@ -85,12 +86,15 @@ r2.exec(s) // null
 （3）选择符（|）
 
 竖线符号（|）在正则表达式中表示“或关系”（OR），即cat|dog表示匹配cat或dog。
+
 ```js
 /11|22/.test('911') // true
 ```
+
 上面代码中，正则表达式指定必须匹配11或22。
 
 多个选择符可以联合使用。
+
 ```js
 // 匹配fred、barney、betty之中的一个
 /fred|barney|betty/
