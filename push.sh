@@ -1,8 +1,8 @@
+rm -rf docs/*
 gitbook build
 
-rm -rf docs
-mv -rf _book docs
-rm -rf docs/docs
+cp -rf _book/* docs/
+rm -rf _book
 
 git add .
 git commit -m 'update !!!'
