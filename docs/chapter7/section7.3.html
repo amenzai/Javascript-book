@@ -1092,161 +1092,256 @@
 <p>&#x76F8;&#x5BF9;&#x4E8E;&#x4F20;&#x7EDF;&#x7684;&#x6570;&#x7EC4;&#xFF0C;&#x94FE;&#x8868;&#x7684;&#x4E00;&#x4E2A;&#x597D;&#x5904;&#x5728;&#x4E8E;&#xFF0C;&#x6DFB;&#x52A0;&#x6216;&#x79FB;&#x9664;&#x5143;&#x7D20;&#x7684;&#x65F6;&#x5019;&#x4E0D;&#x9700;&#x8981;&#x79FB;&#x52A8;&#x5176;&#x4ED6;&#x5143;&#x7D20;&#x3002;&#x7136;&#x800C;&#xFF0C;&#x94FE;&#x8868;&#x9700;&#x8981;&#x4F7F;&#x7528;&#x6307;&#x9488;&#xFF0C;&#x56E0;&#x6B64;&#x5B9E;&#x73B0;&#x94FE;&#x8868;&#x65F6;&#x9700;&#x8981;&#x989D;&#x5916;&#x6CE8;&#x610F;&#x3002;&#x6570;&#x7EC4;&#x7684;&#x53E6;&#x4E00;&#x4E2A;&#x7EC6;&#x8282;&#x662F;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x8BBF;&#x95EE;&#x4EFB;&#x4F55;&#x4F4D;&#x7F6E;&#x7684;&#x4EFB;&#x4F55;&#x5143;&#x7D20;&#xFF0C;&#x800C;&#x8981;&#x60F3;&#x8BBF;&#x95EE;&#x94FE;&#x8868;&#x4E2D;&#x95F4;&#x7684;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#xFF0C;&#x9700;&#x8981;&#x4ECE;&#x8D77;&#x70B9;&#xFF08;&#x8868;&#x5934;&#xFF09;&#x5F00;&#x59CB;&#x8FED;&#x4EE3;&#x5217;&#x8868;&#x76F4;&#x5230;&#x627E;&#x5230;&#x6240;&#x9700;&#x7684;&#x5143;&#x7D20;&#x3002;</p>
 <h2 id="&#x4EE3;&#x7801;&#x793A;&#x4F8B;">&#x4EE3;&#x7801;&#x793A;&#x4F8B;</h2>
 <p><strong>&#x5355;&#x5411;&#x94FE;&#x8868;</strong></p>
-<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Node</span>(<span class="hljs-params">element</span>) </span>{
-   <span class="hljs-keyword">this</span>.element = element;
-   <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>;
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LinkedList</span>(<span class="hljs-params"></span>) </span>{
+
+  <span class="hljs-keyword">let</span> Node = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">element</span>) </span>{
+    <span class="hljs-keyword">this</span>.element = element;
+    <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>;
+  };
+
+  <span class="hljs-keyword">let</span> length = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">let</span> head = <span class="hljs-literal">null</span>;
+
+  <span class="hljs-keyword">this</span>.append = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">element</span>) </span>{
+    <span class="hljs-keyword">let</span> node = <span class="hljs-keyword">new</span> Node(element), <span class="hljs-comment">// &#x521B;&#x5EFA;Node&#x9879;</span>
+      current;
+
+    <span class="hljs-keyword">if</span> (head === <span class="hljs-literal">null</span>) { <span class="hljs-comment">//&#x5217;&#x8868;&#x4E2D;&#x7B2C;&#x4E00;&#x4E2A;&#x8282;&#x70B9; //{3}</span>
+      head = node;
+
+    } <span class="hljs-keyword">else</span> {
+      current = head; <span class="hljs-comment">//&#x6211;&#x4EEC;&#x53EA;&#x6709;&#x7B2C;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x5F15;&#x7528;</span>
+
+      <span class="hljs-comment">//&#x5FAA;&#x73AF;&#x5217;&#x8868;&#xFF0C;&#x76F4;&#x5230;&#x627E;&#x5230;&#x6700;&#x540E;&#x4E00;&#x9879;</span>
+      <span class="hljs-keyword">while</span> (current.next) {
+        current = current.next;
+      }
+
+      <span class="hljs-comment">//&#x627E;&#x5230;&#x6700;&#x540E;&#x4E00;&#x9879;&#xFF0C;&#x5C06;&#x5176;next&#x8D4B;&#x4E3A;node&#xFF0C;&#x5EFA;&#x7ACB;&#x94FE;&#x63A5;</span>
+      current.next = node; <span class="hljs-comment">//{5}</span>
+    }
+
+    length++; <span class="hljs-comment">//&#x66F4;&#x65B0;&#x5217;&#x8868;&#x7684;&#x957F;&#x5EA6; //{6}</span>
+  };
+  <span class="hljs-keyword">this</span>.insert = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">position, element</span>) </span>{
+
+    <span class="hljs-comment">//&#x68C0;&#x67E5;&#x8D8A;&#x754C;&#x503C;</span>
+    <span class="hljs-keyword">if</span> (position &gt;= <span class="hljs-number">0</span> &amp;&amp; position &lt;= length) { <span class="hljs-comment">//{1}</span>
+
+      <span class="hljs-keyword">let</span> node = <span class="hljs-keyword">new</span> Node(element),
+        current = head,
+        previous,
+        index = <span class="hljs-number">0</span>;
+
+      <span class="hljs-keyword">if</span> (position === <span class="hljs-number">0</span>) { <span class="hljs-comment">//&#x5728;&#x7B2C;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x6DFB;&#x52A0;</span>
+
+        node.next = current; <span class="hljs-comment">//{2}</span>
+        head = node;
+
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">while</span> (index++ <span class="xml"><span class="hljs-tag">&lt; <span class="hljs-attr">position</span>) { //{<span class="hljs-attr">3</span>}
+          <span class="hljs-attr">previous</span> = <span class="hljs-attr">current</span>;
+          <span class="hljs-attr">current</span> = <span class="hljs-attr">current.next</span>;
+        }
+        <span class="hljs-attr">node.next</span> = <span class="hljs-attr">current</span>; //{<span class="hljs-attr">4</span>}
+        <span class="hljs-attr">previous.next</span> = <span class="hljs-attr">node</span>; //{<span class="hljs-attr">5</span>}
+      }
+
+      <span class="hljs-attr">length</span>++; //&#x66F4;&#x65B0;&#x5217;&#x8868;&#x7684;&#x957F;&#x5EA6;
+
+      <span class="hljs-attr">return</span> <span class="hljs-attr">true</span>;
+
+    } <span class="hljs-attr">else</span> {
+      <span class="hljs-attr">return</span> <span class="hljs-attr">false</span>; //{<span class="hljs-attr">6</span>}
+    }
+  };
+  <span class="hljs-attr">this.removeAt</span> = <span class="hljs-attr">function</span> (<span class="hljs-attr">position</span>) {
+
+    //&#x68C0;&#x67E5;&#x8D8A;&#x754C;&#x503C;
+    <span class="hljs-attr">if</span> (<span class="hljs-attr">position</span> &gt;</span> -1 &amp;&amp; position <span class="hljs-tag">&lt; <span class="hljs-attr">length</span>) { // {<span class="hljs-attr">1</span>}
+
+      <span class="hljs-attr">let</span> <span class="hljs-attr">current</span> = <span class="hljs-attr">head</span>, // {<span class="hljs-attr">2</span>}
+        <span class="hljs-attr">previous</span>, // {<span class="hljs-attr">3</span>}
+        <span class="hljs-attr">index</span> = <span class="hljs-attr">0</span>; // {<span class="hljs-attr">4</span>}
+
+      //&#x79FB;&#x9664;&#x7B2C;&#x4E00;&#x9879;
+      <span class="hljs-attr">if</span> (<span class="hljs-attr">position</span> =<span class="hljs-string">==</span> <span class="hljs-attr">0</span>) { // {<span class="hljs-attr">5</span>}
+        <span class="hljs-attr">head</span> = <span class="hljs-attr">current.next</span>;
+      } <span class="hljs-attr">else</span> {
+
+        <span class="hljs-attr">while</span> (<span class="hljs-attr">index</span>++ &lt; <span class="hljs-attr">position</span>) { // {<span class="hljs-attr">6</span>}
+
+          <span class="hljs-attr">previous</span> = <span class="hljs-attr">current</span>; // {<span class="hljs-attr">7</span>}
+          <span class="hljs-attr">current</span> = <span class="hljs-attr">current.next</span>; // {<span class="hljs-attr">8</span>}
+        }
+
+        //&#x5C06;<span class="hljs-attr">previous</span>&#x4E0E;<span class="hljs-attr">current</span>&#x7684;&#x4E0B;&#x4E00;&#x9879;&#x94FE;&#x63A5;&#x8D77;&#x6765;&#xFF1A;&#x8DF3;&#x8FC7;<span class="hljs-attr">current</span>&#xFF0C;&#x4ECE;&#x800C;&#x79FB;&#x9664;&#x5B83;
+        <span class="hljs-attr">previous.next</span> = <span class="hljs-attr">current.next</span>; // {<span class="hljs-attr">9</span>}
+      }
+
+      <span class="hljs-attr">length--</span>; // {<span class="hljs-attr">10</span>}
+
+      <span class="hljs-attr">return</span> <span class="hljs-attr">current.element</span>;
+
+    } <span class="hljs-attr">else</span> {
+      <span class="hljs-attr">return</span> <span class="hljs-attr">null</span>; // {<span class="hljs-attr">11</span>}
+    }
+  };
+  <span class="hljs-attr">this.remove</span> = <span class="hljs-attr">function</span>(<span class="hljs-attr">element</span>){
+    <span class="hljs-attr">let</span> <span class="hljs-attr">index</span> = <span class="hljs-attr">this.indexOf</span>(<span class="hljs-attr">element</span>);
+    <span class="hljs-attr">return</span> <span class="hljs-attr">this.removeAt</span>(<span class="hljs-attr">index</span>);
+  };
+  <span class="hljs-attr">this.indexOf</span> = <span class="hljs-attr">function</span> (<span class="hljs-attr">element</span>) {
+
+    <span class="hljs-attr">let</span> <span class="hljs-attr">current</span> = <span class="hljs-attr">head</span>, //{<span class="hljs-attr">1</span>}
+      <span class="hljs-attr">index</span> = <span class="hljs-attr">-1</span>;
+
+    <span class="hljs-attr">while</span> (<span class="hljs-attr">current</span>) { //{<span class="hljs-attr">2</span>}
+      <span class="hljs-attr">if</span> (<span class="hljs-attr">element</span> =<span class="hljs-string">==</span> <span class="hljs-attr">current.element</span>) {
+        <span class="hljs-attr">return</span> <span class="hljs-attr">index</span>; //{<span class="hljs-attr">3</span>}
+      }
+      <span class="hljs-attr">index</span>++; //{<span class="hljs-attr">4</span>}
+      <span class="hljs-attr">current</span> = <span class="hljs-attr">current.next</span>; //{<span class="hljs-attr">5</span>}
+    }
+
+    <span class="hljs-attr">return</span> <span class="hljs-attr">-1</span>;
+  };
+  <span class="hljs-attr">this.isEmpty</span> = <span class="hljs-attr">function</span>() {
+    <span class="hljs-attr">return</span> <span class="hljs-attr">length</span> =<span class="hljs-string">==</span> <span class="hljs-attr">0</span>;
+  };
+  <span class="hljs-attr">this.size</span> = <span class="hljs-attr">function</span>() {
+    <span class="hljs-attr">return</span> <span class="hljs-attr">length</span>;
+  };
+  <span class="hljs-attr">this.getHead</span> = <span class="hljs-attr">function</span>(){
+    <span class="hljs-attr">return</span> <span class="hljs-attr">head</span>;
+  };
+  <span class="hljs-attr">this.toString</span> = <span class="hljs-attr">function</span> () {
+
+    <span class="hljs-attr">let</span> <span class="hljs-attr">current</span> = <span class="hljs-attr">head</span>, //{<span class="hljs-attr">1</span>}
+      <span class="hljs-attr">string</span> = &apos;&apos;; //{<span class="hljs-attr">2</span>}
+
+    <span class="hljs-attr">while</span> (<span class="hljs-attr">current</span>) { //{<span class="hljs-attr">3</span>}
+      <span class="hljs-attr">string</span> += <span class="hljs-attr">current.element</span> + (<span class="hljs-attr">current.next</span> ? &apos;<span class="hljs-attr">n</span>&apos; <span class="hljs-attr">:</span> &apos;&apos;); //{<span class="hljs-attr">4</span>}
+      <span class="hljs-attr">current</span> = <span class="hljs-attr">current.next</span>; //{<span class="hljs-attr">5</span>}
+    }
+    <span class="hljs-attr">return</span> <span class="hljs-attr">string</span>; //{<span class="hljs-attr">6</span>}
+  };
+  <span class="hljs-attr">this.print</span> = <span class="hljs-attr">function</span> () {};
 }
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LList</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">this</span>.head = <span class="hljs-keyword">new</span> Node(<span class="hljs-string">&quot;head&quot;</span>);
-   <span class="hljs-keyword">this</span>.find = find;
-   <span class="hljs-keyword">this</span>.insert = insert;
-   <span class="hljs-keyword">this</span>.display = display;
-   <span class="hljs-keyword">this</span>.findPrevious = findPrevious;
-   <span class="hljs-keyword">this</span>.remove = remove;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">remove</span>(<span class="hljs-params">item</span>) </span>{
-   <span class="hljs-keyword">var</span> prevNode = <span class="hljs-keyword">this</span>.findPrevious(item);
-   <span class="hljs-keyword">if</span> (!(prevNode.next == <span class="hljs-literal">null</span>)) {
-       prevNode.next = prevNode.next.next;
-   }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findPrevious</span>(<span class="hljs-params">item</span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.head;
-   <span class="hljs-keyword">while</span> (!(currNode.next == <span class="hljs-literal">null</span>) &amp;&amp; 
-           (currNode.next.element != item)) {
-      currNode = currNode.next;
-   }
-   <span class="hljs-keyword">return</span> currNode;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">display</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.head;
-   <span class="hljs-keyword">while</span> (!(currNode.next == <span class="hljs-literal">null</span>)) {
-      <span class="hljs-built_in">console</span>.log(currNode.next.element);
-      currNode = currNode.next;
-   }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">find</span>(<span class="hljs-params">item</span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.head;
-   <span class="hljs-keyword">while</span> (currNode.element != item) {
-      currNode = currNode.next;
-   }
-   <span class="hljs-keyword">return</span> currNode;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">insert</span>(<span class="hljs-params">newElement, item</span>) </span>{
-   <span class="hljs-keyword">var</span> newNode = <span class="hljs-keyword">new</span> Node(newElement);
-   <span class="hljs-keyword">var</span> current = <span class="hljs-keyword">this</span>.find(item);
-   newNode.next = current.next;
-   current.next = newNode;
-}
-
-
-<span class="hljs-keyword">var</span> cities = <span class="hljs-keyword">new</span> LList();
-cities.insert(<span class="hljs-string">&quot;Conway&quot;</span>, <span class="hljs-string">&quot;head&quot;</span>);
-cities.insert(<span class="hljs-string">&quot;Russellville&quot;</span>, <span class="hljs-string">&quot;Conway&quot;</span>);
-cities.insert(<span class="hljs-string">&quot;Carlisle&quot;</span>, <span class="hljs-string">&quot;Russellville&quot;</span>);
-cities.insert(<span class="hljs-string">&quot;Alma&quot;</span>, <span class="hljs-string">&quot;Carlisle&quot;</span>);
-cities.display();
-<span class="hljs-built_in">console</span>.log();
-cities.remove(<span class="hljs-string">&quot;Carlisle&quot;</span>);
-cities.display();
-</code></pre>
+</span></span></code></pre>
 <p><strong>&#x53CC;&#x5411;&#x94FE;&#x8868;</strong></p>
-<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Node</span>(<span class="hljs-params">element</span>) </span>{
-   <span class="hljs-keyword">this</span>.element = element;
-   <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>;
-   <span class="hljs-keyword">this</span>.previous = <span class="hljs-literal">null</span>;
+<pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">DoublyLinkedList</span>(<span class="hljs-params"></span>) </span>{
+
+  <span class="hljs-keyword">let</span> Node = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">element</span>) </span>{
+
+    <span class="hljs-keyword">this</span>.element = element;
+    <span class="hljs-keyword">this</span>.next = <span class="hljs-literal">null</span>;
+    <span class="hljs-keyword">this</span>.prev = <span class="hljs-literal">null</span>; <span class="hljs-comment">//&#x65B0;&#x589E;&#x7684;</span>
+  };
+
+  <span class="hljs-keyword">let</span> length = <span class="hljs-number">0</span>;
+  <span class="hljs-keyword">let</span> head = <span class="hljs-literal">null</span>;
+  <span class="hljs-keyword">let</span> tail = <span class="hljs-literal">null</span>; <span class="hljs-comment">//&#x65B0;&#x589E;&#x7684;</span>
+
+  <span class="hljs-comment">//&#x8FD9;&#x91CC;&#x662F;&#x65B9;&#x6CD5;</span>
+  <span class="hljs-keyword">this</span>.insert = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">position, element</span>) </span>{
+
+    <span class="hljs-comment">//&#x68C0;&#x67E5;&#x8D8A;&#x754C;&#x503C;</span>
+    <span class="hljs-keyword">if</span> (position &gt;= <span class="hljs-number">0</span> &amp;&amp; position &lt;= length) {
+
+      <span class="hljs-keyword">let</span> node = <span class="hljs-keyword">new</span> Node(element),
+        current = head,
+        previous,
+        index = <span class="hljs-number">0</span>;
+
+      <span class="hljs-keyword">if</span> (position === <span class="hljs-number">0</span>) { <span class="hljs-comment">//&#x5728;&#x7B2C;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x6DFB;&#x52A0;</span>
+
+        <span class="hljs-keyword">if</span> (!head) { <span class="hljs-comment">//&#x65B0;&#x589E;&#x7684; {1}</span>
+          head = node;
+          tail = node;
+        } <span class="hljs-keyword">else</span> {
+          node.next = current;
+          current.prev = node; <span class="hljs-comment">//&#x65B0;&#x589E;&#x7684; {2}</span>
+          head = node;
+        }
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (position === length) { <span class="hljs-comment">//&#x6700;&#x540E;&#x4E00;&#x9879; //&#x65B0;&#x589E;&#x7684;</span>
+
+        current = tail; <span class="hljs-comment">// {3}</span>
+        current.next = node;
+        node.prev = current;
+        tail = node;
+
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">while</span> (index++ <span class="xml"><span class="hljs-tag">&lt; <span class="hljs-attr">position</span>) { //{<span class="hljs-attr">4</span>}
+          <span class="hljs-attr">previous</span> = <span class="hljs-attr">current</span>;
+          <span class="hljs-attr">current</span> = <span class="hljs-attr">current.next</span>;
+        }
+        <span class="hljs-attr">node.next</span> = <span class="hljs-attr">current</span>; //{<span class="hljs-attr">5</span>}
+        <span class="hljs-attr">previous.next</span> = <span class="hljs-attr">node</span>;
+
+        <span class="hljs-attr">current.prev</span> = <span class="hljs-attr">node</span>; //&#x65B0;&#x589E;&#x7684;
+        <span class="hljs-attr">node.prev</span> = <span class="hljs-attr">previous</span>; //&#x65B0;&#x589E;&#x7684;
+      }
+
+      <span class="hljs-attr">length</span>++; //&#x66F4;&#x65B0;&#x5217;&#x8868;&#x7684;&#x957F;&#x5EA6;
+
+      <span class="hljs-attr">return</span> <span class="hljs-attr">true</span>;
+
+    } <span class="hljs-attr">else</span> {
+      <span class="hljs-attr">return</span> <span class="hljs-attr">false</span>;
+    }
+  };
+  <span class="hljs-attr">this.removeAt</span> = <span class="hljs-attr">function</span> (<span class="hljs-attr">position</span>) {
+
+    //&#x68C0;&#x67E5;&#x8D8A;&#x754C;&#x503C;
+    <span class="hljs-attr">if</span> (<span class="hljs-attr">position</span> &gt;</span> -1 &amp;&amp; position <span class="hljs-tag">&lt; <span class="hljs-attr">length</span>) {
+
+      <span class="hljs-attr">let</span> <span class="hljs-attr">current</span> = <span class="hljs-attr">head</span>,
+        <span class="hljs-attr">previous</span>,
+        <span class="hljs-attr">index</span> = <span class="hljs-attr">0</span>;
+
+      //&#x79FB;&#x9664;&#x7B2C;&#x4E00;&#x9879;
+      <span class="hljs-attr">if</span> (<span class="hljs-attr">position</span> =<span class="hljs-string">==</span> <span class="hljs-attr">0</span>) {
+
+        <span class="hljs-attr">head</span> = <span class="hljs-attr">current.next</span>; // {<span class="hljs-attr">1</span>}
+
+        //&#x5982;&#x679C;&#x53EA;&#x6709;&#x4E00;&#x9879;&#xFF0C;&#x66F4;&#x65B0;<span class="hljs-attr">tail</span> //&#x65B0;&#x589E;&#x7684;
+        <span class="hljs-attr">if</span> (<span class="hljs-attr">length</span> =<span class="hljs-string">==</span> <span class="hljs-attr">1</span>) { // {<span class="hljs-attr">2</span>}
+          <span class="hljs-attr">tail</span> = <span class="hljs-attr">null</span>;
+        } <span class="hljs-attr">else</span> {
+          <span class="hljs-attr">head.prev</span> = <span class="hljs-attr">null</span>; // {<span class="hljs-attr">3</span>}
+        }
+
+      } <span class="hljs-attr">else</span> <span class="hljs-attr">if</span> (<span class="hljs-attr">position</span> =<span class="hljs-string">==</span> <span class="hljs-attr">length</span> <span class="hljs-attr">-</span> <span class="hljs-attr">1</span>) { //&#x6700;&#x540E;&#x4E00;&#x9879; //&#x65B0;&#x589E;&#x7684;
+
+        <span class="hljs-attr">current</span> = <span class="hljs-attr">tail</span>; // {<span class="hljs-attr">4</span>}
+        <span class="hljs-attr">tail</span> = <span class="hljs-attr">current.prev</span>;
+        <span class="hljs-attr">tail.next</span> = <span class="hljs-attr">null</span>;
+
+      } <span class="hljs-attr">else</span> {
+
+        <span class="hljs-attr">while</span> (<span class="hljs-attr">index</span>++ &lt; <span class="hljs-attr">position</span>) { // {<span class="hljs-attr">5</span>}
+
+          <span class="hljs-attr">previous</span> = <span class="hljs-attr">current</span>;
+          <span class="hljs-attr">current</span> = <span class="hljs-attr">current.next</span>;
+        }
+
+        //&#x5C06;<span class="hljs-attr">previous</span>&#x4E0E;<span class="hljs-attr">current</span>&#x7684;&#x4E0B;&#x4E00;&#x9879;&#x94FE;&#x63A5;&#x8D77;&#x6765;&#x2014;&#x2014;&#x8DF3;&#x8FC7;<span class="hljs-attr">current</span>
+        <span class="hljs-attr">previous.next</span> = <span class="hljs-attr">current.next</span>; // {<span class="hljs-attr">6</span>}
+        <span class="hljs-attr">current.next.prev</span> = <span class="hljs-attr">previous</span>; //&#x65B0;&#x589E;&#x7684;
+      }
+
+      <span class="hljs-attr">length--</span>;
+
+      <span class="hljs-attr">return</span> <span class="hljs-attr">current.element</span>;
+
+    } <span class="hljs-attr">else</span> {
+      <span class="hljs-attr">return</span> <span class="hljs-attr">null</span>;
+    }
+  };
 }
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">LList</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">this</span>.head = <span class="hljs-keyword">new</span> Node(<span class="hljs-string">&quot;head&quot;</span>);
-   <span class="hljs-keyword">this</span>.find = find;
-   <span class="hljs-keyword">this</span>.insert = insert;
-   <span class="hljs-keyword">this</span>.display = display;
-   <span class="hljs-keyword">this</span>.remove = remove;
-   <span class="hljs-keyword">this</span>.findLast = findLast;
-   <span class="hljs-keyword">this</span>.dispReverse = dispReverse;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">dispReverse</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.head;
-   currNode = <span class="hljs-keyword">this</span>.findLast();
-   <span class="hljs-keyword">while</span> (!(currNode.previous == <span class="hljs-literal">null</span>)) {
-      <span class="hljs-built_in">console</span>.log(currNode.element);
-      currNode = currNode.previous;
-   }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">findLast</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.head;
-   <span class="hljs-keyword">while</span> (!(currNode.next == <span class="hljs-literal">null</span>)) {
-      currNode = currNode.next;
-   }
-   <span class="hljs-keyword">return</span> currNode;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">remove</span>(<span class="hljs-params">item</span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.find(item);
-   <span class="hljs-keyword">if</span> (!(currNode.next == <span class="hljs-literal">null</span>)) {
-       currNode.previous.next = currNode.next;
-       currNode.next.previous = currNode.previous;
-       currNode.next = <span class="hljs-literal">null</span>;
-       currNode.previous = <span class="hljs-literal">null</span>;
-   }
-}
-
-<span class="hljs-comment">// findPrevious is no longer needed</span>
-<span class="hljs-comment">/*function findPrevious(item) {
-   var currNode = this.head;
-   while (!(currNode.next == null) &amp;&amp; 
-           (currNode.next.element != item)) {
-      currNode = currNode.next;
-   }
-   return currNode;
-}*/</span>
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">display</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.head;
-   <span class="hljs-keyword">while</span> (!(currNode.next == <span class="hljs-literal">null</span>)) {
-      <span class="hljs-built_in">console</span>.log(currNode.next.element);
-      currNode = currNode.next;
-   }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">find</span>(<span class="hljs-params">item</span>) </span>{
-   <span class="hljs-keyword">var</span> currNode = <span class="hljs-keyword">this</span>.head;
-   <span class="hljs-keyword">while</span> (currNode.element != item) {
-      currNode = currNode.next;
-   }
-   <span class="hljs-keyword">return</span> currNode;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">insert</span>(<span class="hljs-params">newElement, item</span>) </span>{
-   <span class="hljs-keyword">var</span> newNode = <span class="hljs-keyword">new</span> Node(newElement);
-   <span class="hljs-keyword">var</span> current = <span class="hljs-keyword">this</span>.find(item);
-   newNode.next = current.next;
-   newNode.previous = current;
-   current.next = newNode;
-}
-
-
-<span class="hljs-keyword">var</span> cities = <span class="hljs-keyword">new</span> LList();
-cities.insert(<span class="hljs-string">&quot;Conway&quot;</span>, <span class="hljs-string">&quot;head&quot;</span>);
-cities.insert(<span class="hljs-string">&quot;Russellville&quot;</span>, <span class="hljs-string">&quot;Conway&quot;</span>);
-cities.insert(<span class="hljs-string">&quot;Carlisle&quot;</span>, <span class="hljs-string">&quot;Russellville&quot;</span>);
-cities.insert(<span class="hljs-string">&quot;Alma&quot;</span>, <span class="hljs-string">&quot;Carlisle&quot;</span>);
-cities.display();
-<span class="hljs-built_in">console</span>.log();
-cities.remove(<span class="hljs-string">&quot;Carlisle&quot;</span>);
-cities.display();
-<span class="hljs-built_in">console</span>.log();
-cities.dispReverse();
-</code></pre>
+</span></span></code></pre>
+<p><strong>&#x53CC;&#x5411;&#x5FAA;&#x73AF;&#x94FE;</strong>&#x8868;&#x6709;&#x6307;&#x5411;head&#x5143;&#x7D20;&#x7684;tail.next&#xFF0C;&#x548C;&#x6307;&#x5411;tail&#x5143;&#x7D20;&#x7684;head.prev&#x3002;</p>
 
                                 
                                 </section>
@@ -1290,7 +1385,7 @@ cities.dispReverse();
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"链表","level":"1.8.3","depth":2,"next":{"title":"集合","level":"1.8.4","depth":2,"path":"chapter7/section7.4.md","ref":"chapter7/section7.4.md","articles":[]},"previous":{"title":"队列","level":"1.8.2","depth":2,"path":"chapter7/section7.2.md","ref":"chapter7/section7.2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter7/section7.3.md","mtime":"2018-12-10T01:51:18.134Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-12T09:48:23.688Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"链表","level":"1.8.3","depth":2,"next":{"title":"集合","level":"1.8.4","depth":2,"path":"chapter7/section7.4.md","ref":"chapter7/section7.4.md","articles":[]},"previous":{"title":"队列","level":"1.8.2","depth":2,"path":"chapter7/section7.2.md","ref":"chapter7/section7.2.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter7/section7.3.md","mtime":"2018-12-13T03:41:04.082Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-08T02:00:03.393Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

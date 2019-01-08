@@ -1,120 +1,102 @@
 # 集合
 
-集合是由一组无序且唯一（即不能重复）的项组成的。这个数据结构使用了与有限集合相同的数学概念，但应用在计算机科学的数据结构中。
+迄今为止，我们已经学习了数组（列表）、栈、队列和链表（及其变种）等顺序数据结构。在这一章中，我们要学习集合，这是一种不允许值重复的顺序数据结构。
+
+本章，你会学到如何创建集合这种数据结构，如何添加和移除值，如何搜索值是否存在。你也会学到如何进行并集、交集、差集等数学操作，还会学到如何使用ES6（ECMAScript 6）原生的Set类。
 
 ## 代码示例
 
 ```js
 function Set() {
-   this.dataStore = [];
-   this.add = add;
-   this.remove = remove;
-   this.size = size;
-   this.union = union;
-   this.contains = contains;
-   this.intersect = intersect;
-   this.subset = subset;
-   this.difference = difference;
-   this.show = show;
-}
-
-function add(data) {
-   if (this.dataStore.indexOf(data) < 0) {
-      this.dataStore.push(data);
+  let items = {};
+  this.has = function (value) {
+    // return value in items;
+    return items.hasOwnProperty(value);
+  };
+  this.add = function (value) {
+    if (!this.has(value)) {
+      items[value] = value; //{1}
       return true;
-   } 
-   else {
-      return false;
-   }
-}
-
-function remove(data) {
-   var pos = this.dataStore.indexOf(data);
-   if (pos > -1) {
-      this.dataStore.splice(pos,1);
+    }
+    return false;
+  };
+  this.remove = function (value) {
+    if (this.has(value)) {
+      delete items[value]; //{2}
       return true;
-   }
-   else {
+    }
+    return false;
+  };
+  this.clear = function () {
+    items = {}; // {3}
+  };
+  this.size = function () {
+    return Object.keys(items).length; //{4}
+  };
+  this.values = function () {
+    // let values = [];
+    // for (let i = 0, valuesArr = Object.values(items); i < valuesArr.length; i++) {
+    //   values.push(valuesArr[i]);
+    // }
+    // return values;
+    return Object.values(items)
+  };
+  // 并集
+  this.union = function (otherSet) {
+    let unionSet = new Set(); //{1}
+
+    let values = this.values(); //{2}
+    for (let i = 0; i < values.length; i++) {
+      unionSet.add(values[i]);
+    }
+
+    values = otherSet.values(); //{3}
+    for (let i = 0; i < values.length; i++) {
+      unionSet.add(values[i]);
+    }
+
+    return unionSet;
+  };
+  // 交集
+  this.intersection = function (otherSet) {
+    let intersectionSet = new Set(); //{1}
+
+    let values = this.values();
+    for (let i = 0; i < values.length; i++) { //{2}
+      if (otherSet.has(values[i])) { //{3}
+        intersectionSet.add(values[i]); //{4}
+      }
+    }
+
+    return intersectionSet;
+  }
+  //  差集
+  this.difference = function (otherSet) {
+    let differenceSet = new Set(); //{1}
+
+    let values = this.values();
+    for (let i = 0; i < values.length; i++) { //{2}
+      if (!otherSet.has(values[i])) { //{3}
+        differenceSet.add(values[i]); //{4}
+      }
+    }
+
+    return differenceSet;
+  };
+  // 子集
+  this.subset = function (otherSet) {
+
+    if (this.size() > otherSet.size()) { //{1}
       return false;
-   }
-}
-
-function size() {
-   return this.dataStore.length;
-}
-
-function show() {
-   return "[" + this.dataStore + "]";
-}
-
-function contains(data) {
-   if (this.dataStore.indexOf(data) > -1) {
-      return true;
-   }
-   else {
-      return false;
-   }
-}
-
-function union(set) {
-   var tempSet = new Set();
-   for (var i = 0; i < this.dataStore.length; ++i) {
-      tempSet.add(this.dataStore[i]);
-   }
-   for (var i = 0; i < set.dataStore.length; ++i) {
-      if (!tempSet.contains(set.dataStore[i])) {
-         tempSet.dataStore.push(set.dataStore[i]);
+    } else {
+      let values = this.values();
+      for (let i = 0; i < values.length; i++) { //{2}
+        if (!otherSet.has(values[i])) { //{3}
+          return false; //{4}
+        }
       }
-   }
-   return tempSet;
+      return true; //{5}
+    }
+  };
 }
-
-function intersect(set) {
-   var tempSet = new Set();
-   for (var i = 0; i < this.dataStore.length; ++i) {
-      if (set.contains(this.dataStore[i])) {
-         tempSet.add(this.dataStore[i]);
-      }
-   }
-   return tempSet;
-}
-
-function subset(set) {
-   if (this.size() > set.size()) {
-      return false;
-   }
-   else {
-      for each (var member in this.dataStore) {
-         if (!set.contains(member)) {
-            return false;
-         }
-      }
-   }
-   return true;
-}
-
-function difference(set) {
-   var tempSet = new Set();
-   for (var i = 0; i < this.dataStore.length; ++i) {
-      if (!set.contains(this.dataStore[i])) {
-         tempSet.add(this.dataStore[i]);
-      }
-   }
-   return tempSet;
-}  
-
-
-// main program
-
-var cis = new Set();
-var it = new Set();
-cis.add("Clayton");
-cis.add("Jennifer");
-cis.add("Danny");
-it.add("Bryan");
-it.add("Clayton");
-it.add("Jennifer");
-var diff = new Set();
-diff = cis.difference(it);
-print(cis.show() + " difference " + it.show() + " -> " + diff.show());
 ```

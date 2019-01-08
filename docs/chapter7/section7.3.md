@@ -11,162 +11,257 @@
 **单向链表**
 
 ```js
-function Node(element) {
-   this.element = element;
-   this.next = null;
-}
+function LinkedList() {
 
-function LList() {
-   this.head = new Node("head");
-   this.find = find;
-   this.insert = insert;
-   this.display = display;
-   this.findPrevious = findPrevious;
-   this.remove = remove;
-}
+  let Node = function (element) {
+    this.element = element;
+    this.next = null;
+  };
 
-function remove(item) {
-   var prevNode = this.findPrevious(item);
-   if (!(prevNode.next == null)) {
-       prevNode.next = prevNode.next.next;
-   }
-}
+  let length = 0;
+  let head = null;
 
-function findPrevious(item) {
-   var currNode = this.head;
-   while (!(currNode.next == null) && 
-           (currNode.next.element != item)) {
-      currNode = currNode.next;
-   }
-   return currNode;
-}
+  this.append = function (element) {
+    let node = new Node(element), // 创建Node项
+      current;
 
-function display() {
-   var currNode = this.head;
-   while (!(currNode.next == null)) {
-      console.log(currNode.next.element);
-      currNode = currNode.next;
-   }
-}
+    if (head === null) { //列表中第一个节点 //{3}
+      head = node;
 
-function find(item) {
-   var currNode = this.head;
-   while (currNode.element != item) {
-      currNode = currNode.next;
-   }
-   return currNode;
-}
+    } else {
+      current = head; //我们只有第一个元素的引用
 
-function insert(newElement, item) {
-   var newNode = new Node(newElement);
-   var current = this.find(item);
-   newNode.next = current.next;
-   current.next = newNode;
-}
-   
+      //循环列表，直到找到最后一项
+      while (current.next) {
+        current = current.next;
+      }
 
-var cities = new LList();
-cities.insert("Conway", "head");
-cities.insert("Russellville", "Conway");
-cities.insert("Carlisle", "Russellville");
-cities.insert("Alma", "Carlisle");
-cities.display();
-console.log();
-cities.remove("Carlisle");
-cities.display();
+      //找到最后一项，将其next赋为node，建立链接
+      current.next = node; //{5}
+    }
+
+    length++; //更新列表的长度 //{6}
+  };
+  this.insert = function (position, element) {
+
+    //检查越界值
+    if (position >= 0 && position <= length) { //{1}
+
+      let node = new Node(element),
+        current = head,
+        previous,
+        index = 0;
+
+      if (position === 0) { //在第一个位置添加
+
+        node.next = current; //{2}
+        head = node;
+
+      } else {
+        while (index++ < position) { //{3}
+          previous = current;
+          current = current.next;
+        }
+        node.next = current; //{4}
+        previous.next = node; //{5}
+      }
+
+      length++; //更新列表的长度
+
+      return true;
+
+    } else {
+      return false; //{6}
+    }
+  };
+  this.removeAt = function (position) {
+
+    //检查越界值
+    if (position > -1 && position < length) { // {1}
+
+      let current = head, // {2}
+        previous, // {3}
+        index = 0; // {4}
+
+      //移除第一项
+      if (position === 0) { // {5}
+        head = current.next;
+      } else {
+
+        while (index++ < position) { // {6}
+
+          previous = current; // {7}
+          current = current.next; // {8}
+        }
+
+        //将previous与current的下一项链接起来：跳过current，从而移除它
+        previous.next = current.next; // {9}
+      }
+
+      length--; // {10}
+
+      return current.element;
+
+    } else {
+      return null; // {11}
+    }
+  };
+  this.remove = function(element){
+    let index = this.indexOf(element);
+    return this.removeAt(index);
+  };
+  this.indexOf = function (element) {
+
+    let current = head, //{1}
+      index = -1;
+
+    while (current) { //{2}
+      if (element === current.element) {
+        return index; //{3}
+      }
+      index++; //{4}
+      current = current.next; //{5}
+    }
+
+    return -1;
+  };
+  this.isEmpty = function() {
+    return length === 0;
+  };
+  this.size = function() {
+    return length;
+  };
+  this.getHead = function(){
+    return head;
+  };
+  this.toString = function () {
+
+    let current = head, //{1}
+      string = ''; //{2}
+
+    while (current) { //{3}
+      string += current.element + (current.next ? 'n' : ''); //{4}
+      current = current.next; //{5}
+    }
+    return string; //{6}
+  };
+  this.print = function () {};
+}
 ```
 
 **双向链表**
 
 ```js
-function Node(element) {
-   this.element = element;
-   this.next = null;
-   this.previous = null;
+function DoublyLinkedList() {
+
+  let Node = function (element) {
+
+    this.element = element;
+    this.next = null;
+    this.prev = null; //新增的
+  };
+
+  let length = 0;
+  let head = null;
+  let tail = null; //新增的
+
+  //这里是方法
+  this.insert = function (position, element) {
+
+    //检查越界值
+    if (position >= 0 && position <= length) {
+
+      let node = new Node(element),
+        current = head,
+        previous,
+        index = 0;
+
+      if (position === 0) { //在第一个位置添加
+
+        if (!head) { //新增的 {1}
+          head = node;
+          tail = node;
+        } else {
+          node.next = current;
+          current.prev = node; //新增的 {2}
+          head = node;
+        }
+      } else if (position === length) { //最后一项 //新增的
+
+        current = tail; // {3}
+        current.next = node;
+        node.prev = current;
+        tail = node;
+
+      } else {
+        while (index++ < position) { //{4}
+          previous = current;
+          current = current.next;
+        }
+        node.next = current; //{5}
+        previous.next = node;
+
+        current.prev = node; //新增的
+        node.prev = previous; //新增的
+      }
+
+      length++; //更新列表的长度
+
+      return true;
+
+    } else {
+      return false;
+    }
+  };
+  this.removeAt = function (position) {
+
+    //检查越界值
+    if (position > -1 && position < length) {
+
+      let current = head,
+        previous,
+        index = 0;
+
+      //移除第一项
+      if (position === 0) {
+
+        head = current.next; // {1}
+
+        //如果只有一项，更新tail //新增的
+        if (length === 1) { // {2}
+          tail = null;
+        } else {
+          head.prev = null; // {3}
+        }
+
+      } else if (position === length - 1) { //最后一项 //新增的
+
+        current = tail; // {4}
+        tail = current.prev;
+        tail.next = null;
+
+      } else {
+
+        while (index++ < position) { // {5}
+
+          previous = current;
+          current = current.next;
+        }
+
+        //将previous与current的下一项链接起来——跳过current
+        previous.next = current.next; // {6}
+        current.next.prev = previous; //新增的
+      }
+
+      length--;
+
+      return current.element;
+
+    } else {
+      return null;
+    }
+  };
 }
-
-function LList() {
-   this.head = new Node("head");
-   this.find = find;
-   this.insert = insert;
-   this.display = display;
-   this.remove = remove;
-   this.findLast = findLast;
-   this.dispReverse = dispReverse;
-}
-
-function dispReverse() {
-   var currNode = this.head;
-   currNode = this.findLast();
-   while (!(currNode.previous == null)) {
-      console.log(currNode.element);
-      currNode = currNode.previous;
-   }
-}
-
-function findLast() {
-   var currNode = this.head;
-   while (!(currNode.next == null)) {
-      currNode = currNode.next;
-   }
-   return currNode;
-}
-
-function remove(item) {
-   var currNode = this.find(item);
-   if (!(currNode.next == null)) {
-       currNode.previous.next = currNode.next;
-       currNode.next.previous = currNode.previous;
-       currNode.next = null;
-       currNode.previous = null;
-   }
-}
-
-// findPrevious is no longer needed
-/*function findPrevious(item) {
-   var currNode = this.head;
-   while (!(currNode.next == null) && 
-           (currNode.next.element != item)) {
-      currNode = currNode.next;
-   }
-   return currNode;
-}*/
-
-function display() {
-   var currNode = this.head;
-   while (!(currNode.next == null)) {
-      console.log(currNode.next.element);
-      currNode = currNode.next;
-   }
-}
-
-function find(item) {
-   var currNode = this.head;
-   while (currNode.element != item) {
-      currNode = currNode.next;
-   }
-   return currNode;
-}
-
-function insert(newElement, item) {
-   var newNode = new Node(newElement);
-   var current = this.find(item);
-   newNode.next = current.next;
-   newNode.previous = current;
-   current.next = newNode;
-}
-   
-
-var cities = new LList();
-cities.insert("Conway", "head");
-cities.insert("Russellville", "Conway");
-cities.insert("Carlisle", "Russellville");
-cities.insert("Alma", "Carlisle");
-cities.display();
-console.log();
-cities.remove("Carlisle");
-cities.display();
-console.log();
-cities.dispReverse();
 ```
 
+**双向循环链**表有指向head元素的tail.next，和指向tail元素的head.prev。

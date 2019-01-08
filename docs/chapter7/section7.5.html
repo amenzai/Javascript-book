@@ -1091,199 +1091,222 @@
 <h2 id="&#x5B57;&#x5178;">&#x5B57;&#x5178;</h2>
 <p><strong>&#x4EE3;&#x7801;&#x793A;&#x4F8B;</strong></p>
 <pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Dictionary</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">this</span>.add = add;
-   <span class="hljs-keyword">this</span>.datastore = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();
-   <span class="hljs-keyword">this</span>.find = find;
-   <span class="hljs-keyword">this</span>.remove = remove;
-   <span class="hljs-keyword">this</span>.showAll = showAll;
-   <span class="hljs-keyword">this</span>.count = count;
-   <span class="hljs-keyword">this</span>.clear = clear;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">add</span>(<span class="hljs-params">key, value</span>) </span>{
-   <span class="hljs-keyword">this</span>.datastore[key] = value;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">find</span>(<span class="hljs-params">key</span>) </span>{
-   <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.datastore[key];
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">remove</span>(<span class="hljs-params">key</span>) </span>{
-   <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.datastore[key];
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showAll</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">for</span> each (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> <span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>.datastore).sort()) {
-      print(key + <span class="hljs-string">&quot; -&gt; &quot;</span> + <span class="hljs-keyword">this</span>.datastore[key]);
-   }
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">count</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">var</span> n = <span class="hljs-number">0</span>;
-   <span class="hljs-keyword">for</span> each (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> <span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>.datastore)) {
-      ++n;
-   }
-   <span class="hljs-keyword">return</span> n;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">clear</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">for</span> each (<span class="hljs-keyword">var</span> key <span class="hljs-keyword">in</span> <span class="hljs-built_in">Object</span>.keys(<span class="hljs-keyword">this</span>.datastore)) {
-      <span class="hljs-keyword">delete</span> <span class="hljs-keyword">this</span>.datastore[key];
-   } 
+  <span class="hljs-keyword">var</span> items = {};
+  <span class="hljs-keyword">this</span>.has = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-comment">// return key in items;</span>
+    <span class="hljs-keyword">return</span> items.hasOwnProperty(key);
+  };
+  <span class="hljs-keyword">this</span>.set = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, value</span>) </span>{
+    items[key] = value;
+  };
+  <span class="hljs-keyword">this</span>.delete = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.has(key)) {
+      <span class="hljs-keyword">delete</span> items[key];
+      <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
+  };
+  <span class="hljs-keyword">this</span>.get = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.has(key) ? items[key] : <span class="hljs-literal">undefined</span>;
+  };
+  <span class="hljs-keyword">this</span>.values = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">var</span> values = [];
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> k <span class="hljs-keyword">in</span> items) { <span class="hljs-comment">//{1}</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.has(k)) {
+        values.push(items[k]); <span class="hljs-comment">//{2}</span>
+      }
+    }
+    <span class="hljs-keyword">return</span> values;
+  };
+  <span class="hljs-keyword">this</span>.keys = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.keys(items);
+  };
+  <span class="hljs-keyword">this</span>.getItems = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> items;
+  }
+  <span class="hljs-keyword">this</span>.clear = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    items = {}; <span class="hljs-comment">// {3}</span>
+  };
+  <span class="hljs-keyword">this</span>.size = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.keys(items).length; <span class="hljs-comment">//{4}</span>
+  };
 }
 </code></pre>
 <h2 id="&#x6563;&#x5217;&#x8868;">&#x6563;&#x5217;&#x8868;</h2>
+<p>&#x6563;&#x5217;&#x7B97;&#x6CD5;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x5C3D;&#x53EF;&#x80FD;&#x5FEB;&#x5730;&#x5728;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4E2D;&#x627E;&#x5230;&#x4E00;&#x4E2A;&#x503C;&#x3002;&#x5728;&#x4E4B;&#x524D;&#x7684;&#x7AE0;&#x8282;&#x4E2D;&#xFF0C;&#x4F60;&#x5DF2;&#x7ECF;&#x77E5;&#x9053;&#x5982;&#x679C;&#x8981;&#x5728;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x4E2D;&#x83B7;&#x5F97;&#x4E00;&#x4E2A;&#x503C;&#xFF08;&#x4F7F;&#x7528;get&#x65B9;&#x6CD5;&#xFF09;&#xFF0C;&#x9700;&#x8981;&#x904D;&#x5386;&#x6574;&#x4E2A;&#x6570;&#x636E;&#x7ED3;&#x6784;&#x6765;&#x627E;&#x5230;&#x5B83;&#x3002;&#x5982;&#x679C;&#x4F7F;&#x7528;&#x6563;&#x5217;&#x51FD;&#x6570;&#xFF0C;&#x5C31;&#x77E5;&#x9053;&#x503C;&#x7684;&#x5177;&#x4F53;&#x4F4D;&#x7F6E;&#xFF0C;&#x56E0;&#x6B64;&#x80FD;&#x591F;&#x5FEB;&#x901F;&#x68C0;&#x7D22;&#x5230;&#x8BE5;&#x503C;&#x3002;&#x6563;&#x5217;&#x51FD;&#x6570;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x7ED9;&#x5B9A;&#x4E00;&#x4E2A;&#x952E;&#x503C;&#xFF0C;&#x7136;&#x540E;&#x8FD4;&#x56DE;&#x503C;&#x5728;&#x8868;&#x4E2D;&#x7684;&#x5730;&#x5740;&#x3002;</p>
 <p><strong>&#x4EE3;&#x7801;&#x793A;&#x4F8B;</strong></p>
 <pre><code class="lang-js"><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">HashTable</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">this</span>.table = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>(<span class="hljs-number">137</span>);
-   <span class="hljs-keyword">this</span>.simpleHash = simpleHash;
-   <span class="hljs-keyword">this</span>.betterHash = betterHash;
-   <span class="hljs-keyword">this</span>.showDistro = showDistro;
-   <span class="hljs-keyword">this</span>.put = put;
-   <span class="hljs-keyword">this</span>.get = get;
+  <span class="hljs-keyword">var</span> table = [];
+  <span class="hljs-keyword">var</span> loseloseHashCode = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-keyword">var</span> hash = <span class="hljs-number">0</span>; <span class="hljs-comment">//{1}</span>
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; key.length; i++) { <span class="hljs-comment">//{2}</span>
+      hash += key.charCodeAt(i); <span class="hljs-comment">//{3}</span>
+    }
+    <span class="hljs-keyword">return</span> hash % <span class="hljs-number">37</span>; <span class="hljs-comment">//{4}&#x4E3A;&#x4E86;&#x5F97;&#x5230;&#x6BD4;&#x8F83;&#x5C0F;&#x7684;&#x6570;&#x503C;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x4F7F;&#x7528;hash&#x503C;&#x548C;&#x4E00;&#x4E2A;&#x4EFB;&#x610F;&#x6570;&#x505A;&#x9664;&#x6CD5;&#x7684;&#x4F59;&#x6570;</span>
+  };
+
+  <span class="hljs-keyword">this</span>.put = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, value</span>) </span>{
+    <span class="hljs-keyword">var</span> position = loseloseHashCode(key); <span class="hljs-comment">//{5}</span>
+    <span class="hljs-built_in">console</span>.log(position + <span class="hljs-string">&apos; - &apos;</span> + key); <span class="hljs-comment">//{6}</span>
+    table[position] = value; <span class="hljs-comment">//{7}</span>
+  };
+
+  <span class="hljs-keyword">this</span>.get = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-comment">// &#x7531;&#x4E8E;&#x5143;&#x7D20;&#x5206;&#x5E03;&#x4E8E;&#x6574;&#x4E2A;&#x6570;&#x7EC4;&#x8303;&#x56F4;&#x5185;&#xFF0C;&#x4E00;&#x4E9B;&#x4F4D;&#x7F6E;&#x4F1A;&#x6CA1;&#x6709;&#x4EFB;&#x4F55;&#x5143;&#x7D20;&#x5360;&#x636E;&#xFF0C;&#x5E76;&#x9ED8;&#x8BA4;&#x4E3A;undefined&#x503C;&#x3002;</span>
+    <span class="hljs-comment">// &#x6211;&#x4EEC;&#x4E5F;&#x4E0D;&#x80FD;&#x5C06;&#x4F4D;&#x7F6E;&#x672C;&#x8EAB;&#x4ECE;&#x6570;&#x7EC4;&#x4E2D;&#x79FB;&#x9664;&#xFF08;&#x8FD9;&#x4F1A;&#x6539;&#x53D8;&#x5176;&#x4ED6;&#x5143;&#x7D20;&#x7684;&#x4F4D;&#x7F6E;&#xFF09;&#xFF0C;&#x5426;&#x5219;&#xFF0C;&#x5F53;&#x4E0B;&#x6B21;&#x9700;&#x8981;&#x83B7;&#x5F97;&#x6216;&#x79FB;&#x9664;&#x4E00;&#x4E2A;&#x5143;&#x7D20;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x8FD9;&#x4E2A;&#x5143;&#x7D20;&#x4F1A;&#x4E0D;&#x5728;&#x6211;&#x4EEC;&#x7528;&#x6563;&#x5217;&#x51FD;&#x6570;&#x6C42;&#x51FA;&#x7684;&#x4F4D;&#x7F6E;&#x4E0A;&#x3002;</span>
+    <span class="hljs-keyword">return</span> table[loseloseHashCode(key)];
+  };
+
+  <span class="hljs-keyword">this</span>.remove = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    table[loseloseHashCode(key)] = <span class="hljs-literal">undefined</span>;
+  };
+
 }
+</code></pre>
+<h3 id="&#x6563;&#x5217;&#x8868;&#x548C;&#x6563;&#x5217;&#x96C6;&#x5408;">&#x6563;&#x5217;&#x8868;&#x548C;&#x6563;&#x5217;&#x96C6;&#x5408;</h3>
+<p>&#x5728;&#x4E00;&#x4E9B;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x4E2D;&#xFF0C;&#x8FD8;&#x6709;&#x4E00;&#x79CD;&#x53EB;&#x4F5C;&#x6563;&#x5217;&#x96C6;&#x5408;&#x7684;&#x5B9E;&#x73B0;&#x3002;&#x6563;&#x5217;&#x96C6;&#x5408;&#x7531;&#x4E00;&#x4E2A;&#x96C6;&#x5408;&#x6784;&#x6210;&#xFF0C;&#x4F46;&#x662F;&#x63D2;&#x5165;&#x3001;&#x79FB;&#x9664;&#x6216;&#x83B7;&#x53D6;&#x5143;&#x7D20;&#x65F6;&#xFF0C;&#x4F7F;&#x7528;&#x7684;&#x662F;&#x6563;&#x5217;&#x51FD;&#x6570;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x91CD;&#x7528;&#x672C;&#x7AE0;&#x4E2D;&#x5B9E;&#x73B0;&#x7684;&#x6240;&#x6709;&#x4EE3;&#x7801;&#x6765;&#x5B9E;&#x73B0;&#x6563;&#x5217;&#x96C6;&#x5408;&#xFF0C;&#x4E0D;&#x540C;&#x4E4B;&#x5904;&#x5728;&#x4E8E;&#xFF0C;&#x4E0D;&#x518D;&#x6DFB;&#x52A0;&#x952E;&#x503C;&#x5BF9;&#xFF0C;&#x800C;&#x662F;&#x53EA;&#x63D2;&#x5165;&#x503C;&#x800C;&#x6CA1;&#x6709;&#x952E;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x53EF;&#x4EE5;&#x4F7F;&#x7528;&#x6563;&#x5217;&#x96C6;&#x5408;&#x6765;&#x5B58;&#x50A8;&#x6240;&#x6709;&#x7684;&#x82F1;&#x8BED;&#x5355;&#x8BCD;&#xFF08;&#x4E0D;&#x5305;&#x62EC;&#x5B83;&#x4EEC;&#x7684;&#x5B9A;&#x4E49;&#xFF09;&#x3002;&#x548C;&#x96C6;&#x5408;&#x76F8;&#x4F3C;&#xFF0C;&#x6563;&#x5217;&#x96C6;&#x5408;&#x53EA;&#x5B58;&#x50A8;&#x552F;&#x4E00;&#x7684;&#x4E0D;&#x91CD;&#x590D;&#x7684;&#x503C;&#x3002;</p>
+<h3 id="&#x5904;&#x7406;&#x6563;&#x5217;&#x8868;&#x4E2D;&#x7684;&#x51B2;&#x7A81;">&#x5904;&#x7406;&#x6563;&#x5217;&#x8868;&#x4E2D;&#x7684;&#x51B2;&#x7A81;</h3>
+<p>&#x6709;&#x65F6;&#x5019;&#xFF0C;&#x4E00;&#x4E9B;&#x952E;&#x4F1A;&#x6709;&#x76F8;&#x540C;&#x7684;&#x6563;&#x5217;&#x503C;&#x3002;&#x4E0D;&#x540C;&#x7684;&#x503C;&#x5728;&#x6563;&#x5217;&#x8868;&#x4E2D;&#x5BF9;&#x5E94;&#x76F8;&#x540C;&#x4F4D;&#x7F6E;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x6211;&#x4EEC;&#x79F0;&#x5176;&#x4E3A;&#x51B2;&#x7A81;&#x3002;</p>
+<p>&#x5904;&#x7406;&#x51B2;&#x7A81;&#x6709;&#x51E0;&#x79CD;&#x65B9;&#x6CD5;&#xFF1A;&#x5206;&#x79BB;&#x94FE;&#x63A5;&#x3001;&#x7EBF;&#x6027;&#x63A2;&#x67E5;&#x548C;&#x53CC;&#x6563;&#x5217;&#x6CD5;&#x3002;&#x5728;&#x672C;&#x4E66;&#x4E2D;&#xFF0C;&#x6211;&#x4EEC;&#x4F1A;&#x4ECB;&#x7ECD;&#x524D;&#x4E24;&#x79CD;&#x65B9;&#x6CD5;&#x3002;</p>
+<p><strong>&#x5206;&#x79BB;&#x94FE;&#x63A5;</strong></p>
+<p>&#x5206;&#x79BB;&#x94FE;&#x63A5;&#x6CD5;&#x5305;&#x62EC;&#x4E3A;&#x6563;&#x5217;&#x8868;&#x7684;&#x6BCF;&#x4E00;&#x4E2A;&#x4F4D;&#x7F6E;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;&#x94FE;&#x8868;&#x5E76;&#x5C06;&#x5143;&#x7D20;&#x5B58;&#x50A8;&#x5728;&#x91CC;&#x9762;&#x3002;&#x5B83;&#x662F;&#x89E3;&#x51B3;&#x51B2;&#x7A81;&#x7684;&#x6700;&#x7B80;&#x5355;&#x7684;&#x65B9;&#x6CD5;&#xFF0C;&#x4F46;&#x662F;&#x5B83;&#x5728;HashTable&#x5B9E;&#x4F8B;&#x4E4B;&#x5916;&#x8FD8;&#x9700;&#x8981;&#x989D;&#x5916;&#x7684;&#x5B58;&#x50A8;&#x7A7A;&#x95F4;&#x3002;</p>
+<pre><code class="lang-js">  <span class="hljs-keyword">var</span> ValuePair = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, value</span>) </span>{
+    <span class="hljs-keyword">this</span>.key = key;
+    <span class="hljs-keyword">this</span>.value = value;
 
-<span class="hljs-comment">/*function put(data) {
-   var pos = this.simpleHash(data);
-   this.table[pos] = data;
-}*/</span>
+    <span class="hljs-keyword">this</span>.toString = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+      <span class="hljs-keyword">return</span> <span class="hljs-string">&apos;[&apos;</span> + <span class="hljs-keyword">this</span>.key + <span class="hljs-string">&apos; - &apos;</span> + <span class="hljs-keyword">this</span>.value + <span class="hljs-string">&apos;]&apos;</span>;
+    }
+  };
 
+  <span class="hljs-keyword">this</span>.put = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, value</span>) </span>{
+    <span class="hljs-keyword">var</span> position = loseloseHashCode(key);
 
-<span class="hljs-comment">// put for linear probing</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">put</span>(<span class="hljs-params">key, data</span>) </span>{
-   <span class="hljs-keyword">var</span> pos = <span class="hljs-keyword">this</span>.betterHash(key);
-   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.table[pos] == <span class="hljs-literal">undefined</span>) {
-      <span class="hljs-keyword">this</span>.table[pos] = key;
-      <span class="hljs-keyword">this</span>.values[pos] = data;
-   }
-   <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">while</span> (<span class="hljs-keyword">this</span>.table[pos] != <span class="hljs-literal">undefined</span>) {
-         pos++;
+    <span class="hljs-keyword">if</span> (table[position] == <span class="hljs-literal">undefined</span>) { <span class="hljs-comment">//{1}</span>
+      table[position] = <span class="hljs-keyword">new</span> LinkedList();
+    }
+    table[position].append(<span class="hljs-keyword">new</span> ValuePair(key, value)); <span class="hljs-comment">//{2}</span>
+  };
+
+  <span class="hljs-keyword">this</span>.get = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-keyword">var</span> position = loseloseHashCode(key);
+
+    <span class="hljs-keyword">if</span> (table[position] !== <span class="hljs-literal">undefined</span>) { <span class="hljs-comment">//{3}</span>
+
+      <span class="hljs-comment">//&#x904D;&#x5386;&#x94FE;&#x8868;&#x6765;&#x5BFB;&#x627E;&#x952E;/&#x503C;</span>
+      <span class="hljs-keyword">var</span> current = table[position].getHead(); <span class="hljs-comment">//{4}</span>
+
+      <span class="hljs-keyword">while</span> (current.next) { <span class="hljs-comment">//{5}</span>
+        <span class="hljs-keyword">if</span> (current.element.key === key) { <span class="hljs-comment">//{6}</span>
+          <span class="hljs-keyword">return</span> current.element.value; <span class="hljs-comment">//{7}</span>
+        }
+        current = current.next; <span class="hljs-comment">//{8}</span>
       }
-      <span class="hljs-keyword">this</span>.table[pos] = key;
-      <span class="hljs-keyword">this</span>.values[pos] = data;
-   }
-}
 
-<span class="hljs-comment">// put for separate chaining</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">put</span>(<span class="hljs-params">key, data</span>) </span>{
-   <span class="hljs-keyword">var</span> pos = <span class="hljs-keyword">this</span>.betterHash(key);
-   <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
-   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.table[pos][index] == <span class="hljs-literal">undefined</span>) {
-      <span class="hljs-keyword">this</span>.table[pos][index] = data;
-   }
-   ++index;
-   <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">while</span> (<span class="hljs-keyword">this</span>.table[pos][index] != <span class="hljs-literal">undefined</span>) {
-         ++index;
+      <span class="hljs-comment">//&#x68C0;&#x67E5;&#x5143;&#x7D20;&#x5728;&#x94FE;&#x8868;&#x7B2C;&#x4E00;&#x4E2A;&#x6216;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x8282;&#x70B9;&#x7684;&#x60C5;&#x51B5;</span>
+      <span class="hljs-keyword">if</span> (current.element.key === key) { <span class="hljs-comment">//{9}</span>
+        <span class="hljs-keyword">return</span> current.element.value;
       }
-      <span class="hljs-keyword">this</span>.table[pos][index] = data;
-   }
-}
+    }
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>; <span class="hljs-comment">//{10}</span>
+  };
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">simpleHash</span>(<span class="hljs-params">data</span>) </span>{
-   <span class="hljs-keyword">var</span> total = <span class="hljs-number">0</span>;
-   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; data.length; ++i) {
-      total += data.charCodeAt(i);
-   }
-   print(<span class="hljs-string">&quot;Hash value: &quot;</span> + data + <span class="hljs-string">&quot; -&gt; &quot;</span> + total);
-   <span class="hljs-keyword">return</span> total % <span class="hljs-keyword">this</span>.table.length;
-}
+  <span class="hljs-keyword">this</span>.remove = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+    <span class="hljs-keyword">var</span> position = loseloseHashCode(key);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">betterHash</span>(<span class="hljs-params">string</span>) </span>{
-   <span class="hljs-keyword">const</span> H = <span class="hljs-number">37</span>;
-   <span class="hljs-keyword">var</span> total = <span class="hljs-number">0</span>;
-   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; string.length; ++i) {
-      total += H * total + string.charCodeAt(i);
-   }
-   total = total % <span class="hljs-keyword">this</span>.table.length;
-   <span class="hljs-keyword">if</span> (total &lt; <span class="hljs-number">0</span>) {
-      total += <span class="hljs-keyword">this</span>.table.length<span class="hljs-number">-1</span>;
-   }
-   <span class="hljs-keyword">return</span> <span class="hljs-built_in">parseInt</span>(total);
-}
+    <span class="hljs-keyword">if</span> (table[position] !== <span class="hljs-literal">undefined</span>) {
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">showDistro</span>(<span class="hljs-params"></span>) </span>{
-   <span class="hljs-keyword">var</span> n = <span class="hljs-number">0</span>;
-   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-keyword">this</span>.table.length; ++i) {
-      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.table[i] != <span class="hljs-literal">undefined</span>) {
-         print(i + <span class="hljs-string">&quot;: &quot;</span> + <span class="hljs-keyword">this</span>.table[i]);
+      <span class="hljs-keyword">var</span> current = table[position].getHead();
+      <span class="hljs-keyword">while</span> (current.next) {
+        <span class="hljs-keyword">if</span> (current.element.key === key) { <span class="hljs-comment">//{11}</span>
+          table[position].remove(current.element); <span class="hljs-comment">//{12}</span>
+          <span class="hljs-keyword">if</span> (table[position].isEmpty()) { <span class="hljs-comment">//{13}</span>
+            table[position] = <span class="hljs-literal">undefined</span>; <span class="hljs-comment">//{14}</span>
+          }
+          <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>; <span class="hljs-comment">//{15}</span>
+        }
+        current = current.next;
       }
-   }
-}
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">getRandomInt</span> (<span class="hljs-params">min, max</span>) </span>{
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * (max - min + <span class="hljs-number">1</span>)) + min;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">genStuData</span>(<span class="hljs-params">arr</span>) </span>{
-   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; ++i) {
-      <span class="hljs-keyword">var</span> num = <span class="hljs-string">&quot;&quot;</span>;
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> j = <span class="hljs-number">1</span>; j &lt;= <span class="hljs-number">9</span>; ++j) {
-         num += <span class="hljs-built_in">Math</span>.floor(<span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">10</span>);
+      <span class="hljs-comment">// &#x68C0;&#x67E5;&#x662F;&#x5426;&#x4E3A;&#x7B2C;&#x4E00;&#x4E2A;&#x6216;&#x6700;&#x540E;&#x4E00;&#x4E2A;&#x5143;&#x7D20;</span>
+      <span class="hljs-keyword">if</span> (current.element.key === key) { <span class="hljs-comment">//{16}</span>
+        table[position].remove(current.element);
+        <span class="hljs-keyword">if</span> (table[position].isEmpty()) {
+          table[position] = <span class="hljs-literal">undefined</span>;
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
       }
-      num += getRandomInt(<span class="hljs-number">50</span>,<span class="hljs-number">100</span>);
-      arr[i] = num;
-   }
-}
+    }
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">buildChains</span>(<span class="hljs-params">arr</span>) </span>{
-   <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; arr.length; ++i) {
-      arr[i] = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Array</span>();
-   }
-}
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">//{17}</span>
+  };
+</code></pre>
+<p><strong>&#x7EBF;&#x6027;&#x63A2;&#x67E5;</strong></p>
+<p>&#x53E6;&#x4E00;&#x79CD;&#x89E3;&#x51B3;&#x51B2;&#x7A81;&#x7684;&#x65B9;&#x6CD5;&#x662F;&#x7EBF;&#x6027;&#x63A2;&#x67E5;&#x3002;&#x5F53;&#x60F3;&#x5411;&#x8868;&#x4E2D;&#x67D0;&#x4E2A;&#x4F4D;&#x7F6E;&#x52A0;&#x5165;&#x4E00;&#x4E2A;&#x65B0;&#x5143;&#x7D20;&#x7684;&#x65F6;&#x5019;&#xFF0C;&#x5982;&#x679C;&#x7D22;&#x5F15;&#x4E3A;index&#x7684;&#x4F4D;&#x7F6E;&#x5DF2;&#x7ECF;&#x88AB;&#x5360;&#x636E;&#x4E86;&#xFF0C;&#x5C31;&#x5C1D;&#x8BD5;index+1&#x7684;&#x4F4D;&#x7F6E;&#x3002;&#x5982;&#x679C;index+1&#x7684;&#x4F4D;&#x7F6E;&#x4E5F;&#x88AB;&#x5360;&#x636E;&#x4E86;&#xFF0C;&#x5C31;&#x5C1D;&#x8BD5;index+2&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x4EE5;&#x6B64;&#x7C7B;&#x63A8;&#x3002;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">this</span>.put = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, value</span>) </span>{
+  <span class="hljs-keyword">var</span> position = loseloseHashCode(key); <span class="hljs-comment">// {1}</span>
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">inHash</span>(<span class="hljs-params">key, arr</span>) </span>{
-   <span class="hljs-keyword">var</span> hash = simpleHash(key, arr);
-   <span class="hljs-keyword">var</span> n = <span class="hljs-number">0</span>;
-   <span class="hljs-keyword">if</span> (key == arr[hash][n]) {
+  <span class="hljs-keyword">if</span> (table[position] == <span class="hljs-literal">undefined</span>) { <span class="hljs-comment">// {2}</span>
+    table[position] = <span class="hljs-keyword">new</span> ValuePair(key, value); <span class="hljs-comment">// {3}</span>
+  } <span class="hljs-keyword">else</span> {
+    <span class="hljs-keyword">var</span> index = ++position; <span class="hljs-comment">// {4}</span>
+    <span class="hljs-keyword">while</span> (table[index] != <span class="hljs-literal">undefined</span>) { <span class="hljs-comment">// {5}</span>
+      index++; <span class="hljs-comment">// {6}</span>
+    }
+    table[index] = <span class="hljs-keyword">new</span> ValuePair(key, value); <span class="hljs-comment">// {7}</span>
+  }
+};
+<span class="hljs-keyword">this</span>.get = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+  <span class="hljs-keyword">var</span> position = loseloseHashCode(key);
+
+  <span class="hljs-keyword">if</span> (table[position] !== <span class="hljs-literal">undefined</span>) { <span class="hljs-comment">//{8}</span>
+    <span class="hljs-keyword">if</span> (table[position].key === key) { <span class="hljs-comment">//{9}</span>
+      <span class="hljs-keyword">return</span> table[position].value; <span class="hljs-comment">//{10}</span>
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">var</span> index = ++position;
+      <span class="hljs-keyword">while</span> (table[index] === <span class="hljs-literal">undefined</span> ||
+        table[index].key !== key) { <span class="hljs-comment">//{11}</span>
+        index++;
+      }
+      <span class="hljs-keyword">if</span> (table[index].key === key) { <span class="hljs-comment">//{12}</span>
+        <span class="hljs-keyword">return</span> table[index].value; <span class="hljs-comment">//{13}</span>
+      }
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>; <span class="hljs-comment">//{14}</span>
+};
+<span class="hljs-keyword">this</span>.remove = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+  <span class="hljs-keyword">var</span> position = loseloseHashCode(key);
+
+  <span class="hljs-keyword">if</span> (table[position] !== <span class="hljs-literal">undefined</span>) { <span class="hljs-comment">//{8}</span>
+    <span class="hljs-keyword">if</span> (table[position].key === key) { <span class="hljs-comment">//{9}</span>
+      table[position] = <span class="hljs-literal">undefined</span>;
       <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-   }
-   <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">while</span> (arr[hash][n] != <span class="hljs-literal">undefined</span>) {
-         <span class="hljs-keyword">if</span> (arr[hash][n] == key) {
-            <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
-         }
-         ++n;
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-keyword">var</span> index = ++position;
+      <span class="hljs-keyword">while</span> (table[index] === <span class="hljs-literal">undefined</span> ||
+        table[index].key !== key) { <span class="hljs-comment">//{11}</span>
+        index++;
       }
-   }
-   <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>;
-}
-
-<span class="hljs-comment">// get for separate chaining</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params">key</span>) </span>{
-   <span class="hljs-keyword">var</span> index = <span class="hljs-number">0</span>;
-   <span class="hljs-keyword">var</span> hash = <span class="hljs-keyword">this</span>.betterHash(key);
-   <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.table[pos][index] = key) {
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.table[pos][index+<span class="hljs-number">1</span>];
-   }
-   index += <span class="hljs-number">2</span>;
-   <span class="hljs-keyword">else</span> {
-      <span class="hljs-keyword">while</span> (<span class="hljs-keyword">this</span>.table[pos][index] != key) {
-         index += <span class="hljs-number">2</span>;
+      <span class="hljs-keyword">if</span> (table[index].key === key) { <span class="hljs-comment">//{12}</span>
+        table[index] = <span class="hljs-literal">undefined</span>;
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">true</span>;
       }
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.table[pos][index+<span class="hljs-number">1</span>];
-   }
-   <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
-}
-
-<span class="hljs-comment">// get for linear probing</span>
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params">key</span>) </span>{
-   <span class="hljs-keyword">var</span> hash = <span class="hljs-number">-1</span>;
-   hash = <span class="hljs-keyword">this</span>.betterHash(key);
-   <span class="hljs-keyword">if</span> (hash &gt; <span class="hljs-number">-1</span>) {
-      <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = hash; <span class="hljs-keyword">this</span>.table[hash] != <span class="hljs-literal">undefined</span>; i++) {
-         <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span>.table[hash] == key) {
-            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.values[hash];
-         }
-      }
-   }
-   <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
-}
-
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">get</span>(<span class="hljs-params">key</span>) </span>{
-   <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.table[<span class="hljs-keyword">this</span>.betterHash(key)];
-}
+    }
+  }
+  <span class="hljs-keyword">return</span> <span class="hljs-literal">false</span>; <span class="hljs-comment">//{14}</span>
+};
+</code></pre>
+<p><strong>&#x521B;&#x5EFA;&#x66F4;&#x597D;&#x7684;&#x6563;&#x5217;&#x51FD;&#x6570;</strong></p>
+<p>&#x6211;&#x4EEC;&#x5B9E;&#x73B0;&#x7684;&#x201C;lose lose&#x201D;&#x6563;&#x5217;&#x51FD;&#x6570;&#x5E76;&#x4E0D;&#x662F;&#x4E00;&#x4E2A;&#x8868;&#x73B0;&#x826F;&#x597D;&#x7684;&#x6563;&#x5217;&#x51FD;&#x6570;&#xFF0C;&#x56E0;&#x4E3A;&#x5B83;&#x4F1A;&#x4EA7;&#x751F;&#x592A;&#x591A;&#x7684;&#x51B2;&#x7A81;&#x3002;&#x5982;&#x679C;&#x6211;&#x4EEC;&#x4F7F;&#x7528;&#x8FD9;&#x4E2A;&#x51FD;&#x6570;&#x7684;&#x8BDD;&#xFF0C;&#x4F1A;&#x4EA7;&#x751F;&#x5404;&#x79CD;&#x5404;&#x6837;&#x7684;&#x51B2;&#x7A81;&#x3002;&#x4E00;&#x4E2A;&#x8868;&#x73B0;&#x826F;&#x597D;&#x7684;&#x6563;&#x5217;&#x51FD;&#x6570;&#x662F;&#x7531;&#x51E0;&#x4E2A;&#x65B9;&#x9762;&#x6784;&#x6210;&#x7684;&#xFF1A;&#x63D2;&#x5165;&#x548C;&#x68C0;&#x7D22;&#x5143;&#x7D20;&#x7684;&#x65F6;&#x95F4;&#xFF08;&#x5373;&#x6027;&#x80FD;&#xFF09;&#xFF0C;&#x5F53;&#x7136;&#x4E5F;&#x5305;&#x62EC;&#x8F83;&#x4F4E;&#x7684;&#x51B2;&#x7A81;&#x53EF;&#x80FD;&#x6027;&#x3002;&#x6211;&#x4EEC;&#x53EF;&#x4EE5;&#x5728;&#x7F51;&#x4E0A;&#x627E;&#x5230;&#x4E00;&#x4E9B;&#x4E0D;&#x540C;&#x7684;&#x5B9E;&#x73B0;&#x65B9;&#x6CD5;&#xFF0C;&#x6216;&#x8005;&#x4E5F;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x81EA;&#x5DF1;&#x7684;&#x6563;&#x5217;&#x51FD;&#x6570;&#x3002;</p>
+<p>&#x53E6;&#x4E00;&#x4E2A;&#x53EF;&#x4EE5;&#x5B9E;&#x73B0;&#x7684;&#x6BD4;&#x201C;lose lose&#x201D;&#x66F4;&#x597D;&#x7684;&#x6563;&#x5217;&#x51FD;&#x6570;&#x662F;djb2&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> djb2HashCode = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key</span>) </span>{
+  <span class="hljs-keyword">var</span> hash = <span class="hljs-number">5381</span>; <span class="hljs-comment">//&#x8D28;&#x6570;</span>
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; key.length; i++) { <span class="hljs-comment">//{2}</span>
+    hash = hash * <span class="hljs-number">33</span> + key.charCodeAt(i); <span class="hljs-comment">//33&#xFF1A;&#x9B54;&#x529B;&#x6570;</span>
+  }
+  <span class="hljs-keyword">return</span> hash % <span class="hljs-number">1013</span>; <span class="hljs-comment">//&#x968F;&#x673A;&#x8D28;&#x6570;&#xFF1A;&#x6211;&#x4EEC;&#x8BA4;&#x4E3A;&#x7684;&#x6563;&#x5217;&#x8868;&#x7684;&#x5927;&#x5C0F;&#x8981;&#x5927;</span>
+};
 </code></pre>
 
                                 
@@ -1328,7 +1351,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"字典和散列表","level":"1.8.5","depth":2,"next":{"title":"树","level":"1.8.6","depth":2,"path":"chapter7/section7.6.md","ref":"chapter7/section7.6.md","articles":[]},"previous":{"title":"集合","level":"1.8.4","depth":2,"path":"chapter7/section7.4.md","ref":"chapter7/section7.4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter7/section7.5.md","mtime":"2018-12-10T01:51:18.135Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-12-12T09:48:23.688Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"字典和散列表","level":"1.8.5","depth":2,"next":{"title":"树","level":"1.8.6","depth":2,"path":"chapter7/section7.6.md","ref":"chapter7/section7.6.md","articles":[]},"previous":{"title":"集合","level":"1.8.4","depth":2,"path":"chapter7/section7.4.md","ref":"chapter7/section7.4.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"chapter7/section7.5.md","mtime":"2018-12-13T07:00:08.891Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-01-08T02:00:03.393Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>

@@ -194,7 +194,7 @@ function find(str) {
 ```
 2、将 123456 变成 1,234,567，即千分位标注
 
-*零宽断言*
+*零宽断言：x(?=y)*
 
 ```js
 function exchange(num) {
